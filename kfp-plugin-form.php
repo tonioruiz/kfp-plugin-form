@@ -18,35 +18,6 @@ function Kfp_Plugin_form()
 {
     global $wpdb;
 
-    if ($_POST['nombre'] != ''
-        AND is_email($_POST['correo'])
-        AND $_POST['nivel_html'] != ""
-        AND $_POST['nivel_css'] != ""
-        AND $_POST['nivel_js'] != ""
-        AND $_POST['aceptacion'] == '1'
-    ) {
-        $tabla_aspirante = $wpdb->prefix . 'aspirante';
-        $nombre = sanitize_text_field($_POST['nombre']);
-        $correo = sanitize_email($_POST['correo']);
-        $nivel_html = (int)$_POST['nivel_html'];
-        $nivel_css = (int)$_POST['nivel_css'];
-        $nivel_js = (int)$_POST['nivel_js'];
-        $aceptacion = (int)$_POST['aceptacion'];
-        $created_at = date('Y-m-d H:i:s');
-        $wpdb->insert(
-            $tabla_aspirante, 
-            array(
-                'nombre' => $nombre,
-                'correo' => $correo,
-                'nivel_html' => $nivel_html,
-                'nivel_css' => $nivel_css,
-                'nivel_js' => $nivel_js,
-                'aceptacion' => $aceptacion,
-                'created_at' => $created_at,
-            )
-        );
-    }
-
     ob_start();
     ?>
     <form action="<?php get_the_permalink(); ?>" method="post"

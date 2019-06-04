@@ -6,29 +6,6 @@
  * Description: Plugin para crear un formulario personalizado. Utiliza el shortcode [kfp_plugin_form]
  */
 
-register_activation_hook(__FILE__, 'Kfp_Aspirante_init');
-
-function Kfp_Aspirante_init()
-{
-    global $wpdb;
-    $tabla_aspirante = $wpdb->prefix . 'aspirante';
-    $charset_collate = $wpdb->get_charset_collate();
-    //Prepara la consulta que vamos a lanzar para crear la tabla
-    $query = "CREATE TABLE IF NOT EXISTS $tabla_aspirante (
-        id mediumint(9) NOT NULL AUTO_INCREMENT,
-        nombre varchar(40) NOT NULL,
-        correo varchar(100) NOT NULL,
-        nivel_html smallint(4) NOT NULL,
-        nivel_css smallint(4) NOT NULL,
-        nivel_js smallint(4) NOT NULL,
-        aceptacion smallint(4) NOT NULL,
-        created_at datetime NOT NULL,
-        UNIQUE (id)
-        ) $charset_collate";
-    include_once ABSPATH . 'wp-admin/includes/upgrade.php';
-    dbDelta($query);
-}
-
 // Define el shortcode que pinta el formulario
 add_shortcode('kfp_plugin_form', 'Kfp_Plugin_form');
 
@@ -41,8 +18,7 @@ function Kfp_Plugin_form()
 {
     global $wpdb;
 
-    if (!empty($_POST)
-        AND $_POST['nombre'] != ''
+    if ($_POST['nombre'] != ''
         AND is_email($_POST['correo'])
         AND $_POST['nivel_html'] != ""
         AND $_POST['nivel_css'] != ""
